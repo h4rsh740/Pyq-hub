@@ -28,7 +28,7 @@ const SavedPapers = () => {
     if (!data?.resources) return [];
     const ids = new Set(bookmarkIds.map(String));
     return data.resources.filter((r) => ids.has(String(r._id)));
-  }, [data?.resources, bookmarkIds]);
+  }, [data, bookmarkIds]);
 
   if (loading) return <FullPageLoader label="Loading saved papers…" />;
 

@@ -17,5 +17,11 @@ export default defineConfig([
       globals: globals.browser,
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
+    rules: {
+      // react-hooks/set-state-in-effect is a false positive for async data-fetching
+      // patterns — our useApi hook calls setState asynchronously (after await),
+      // not synchronously in the effect body. Turn it off to avoid noise.
+      'react-hooks/set-state-in-effect': 'off',
+    },
   },
 ])

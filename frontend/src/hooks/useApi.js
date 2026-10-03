@@ -9,7 +9,8 @@ import { getErrorMessage } from '../api/client.js';
  */
 export const useApi = (fn, deps = [], { skip = false } = {}) => {
   const [data,    setData]    = useState(null);
-  const [loading, setLoading] = useState(!skip);
+  // Initialize loading as false when skip=true to avoid a setState in the effect
+  const [loading, setLoading] = useState(() => !skip);
   const [error,   setError]   = useState(null);
 
   const fnRef       = useRef(fn);
@@ -47,10 +48,8 @@ export const useApi = (fn, deps = [], { skip = false } = {}) => {
   }, []);
 
   useEffect(() => {
-    if (skip) {
-      setLoading(false);
-      return;
-    }
+    // When skip=true, loading is already initialised to false (see useState above)
+    if (skip) return;
     run();
     return () => {
       abortRef.current?.abort();
